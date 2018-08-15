@@ -39,7 +39,7 @@ def run_spider():
   def f(q):
     try:
       runner = crawler.CrawlerRunner()
-      deferred = runner.crawl(CrypocurrenciesMarketSpider)
+      deferred = runner.crawl(CoinmarketcapSpider)
       deferred.addBoth(lambda _: reactor.stop())
       reactor.run()
       q.put(None)
@@ -55,7 +55,6 @@ def run_spider():
 
 def main():
   while True:
-    #fetch_data()
     run_spider()
     time.sleep(interval)
 
