@@ -15,7 +15,7 @@ if interval < 60:
 
 def fetch_data():
   record = {}
-  record['timestamp'] = datetime.datetime.now().isoformat()[0:22]
+  record['timestamp'] = datetime.datetime.now().isoformat()[0:19]
   r = requests.get('https://coin-api.bitcoin.com/v1/ticker')
   payload = r.json()
   for symbol in tracking:
