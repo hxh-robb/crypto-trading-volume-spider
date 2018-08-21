@@ -9,7 +9,8 @@ mkdir -p .docker
 
 ## Fetch interval from arguments
 test -z $1 && PARAM='1' || PARAM=$1
+test "$PARAM" -lt '60' && PARAM='60'
 PARAM="$PARAM""s"
 
 #docker build . -t coinmarketcap-spider:latest
-docker run -d --rm --name "coinmarketcap-spider-$PARAM" -v "$(pwd)/.docker/":/out crypto-trading-volume-spider:latest python /app/coinmarketcap-spider.py $@
+docker run -d --rm --name "scheduled-coinmarketcap-spider-$PARAM" -v "$(pwd)/.docker/":/out crypto-trading-volume-spider:latest python /app/coinmarketcap.py $@
