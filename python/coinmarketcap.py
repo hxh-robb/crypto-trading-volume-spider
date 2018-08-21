@@ -93,25 +93,23 @@ def run_spider():
   if result is not None:
     raise result
 
-def next_schedule_job():
-  run_spider()
+def next_schedule_job(need_run_job=True, schedule_interval=interval):
+  if need_run_job:
+    run_spider()
+ 
+  #print datetime.datetime.now().isoformat()[0:22] + ":schedule_interval=" + str(schedule_interval)
+  t = (datetime.datetime.now() + datetime.timedelta(0,schedule_interval)).strftime('%H:%M')
+  print datetime.datetime.now().isoformat()[0:22] + ":next coinmarketcap spider run will start at " + t
   
-  t = (datetime.datetime.now() + datetime.timedelta(0,60)).strftime('%H:%M')
   schedule.every().day.at(t).do(next_schedule_job)
-
   return schedule.CancelJob
 
 def main():
-  t = (datetime.datetime.now() + datetime.timedelta(0,60)).strftime('%H:%M')
-  print datetime.datetime.now().isoformat()[0:22] + ":coinmarketcap spider will start at " + t
-  schedule.every().day.at(t).do(next_schedule_job)
-  
+  next_schedule_job(False,60)
+
   while True:
     schedule.run_pending()
     time.sleep(0.01)
-
-    #run_spider()
-    #time.sleep(interval)
 
 if __name__ == '__main__':
   main()
