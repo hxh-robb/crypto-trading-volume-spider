@@ -25,7 +25,11 @@ def fetch_data():
 
 def next_schedule_job(need_run_job=True, schedule_interval=interval):
   if need_run_job:
-    fetch_data()
+    try:
+      fetch_data()
+    except Exception as e:
+      #helper.add(,'scheduled-bitcoincom',interval,'/out', True)
+      print datetime.datetime.now().isoformat()[0:19], 'ERROR', e
 
   t = (datetime.datetime.now() + datetime.timedelta(0,schedule_interval)).strftime('%H:%M')
   print datetime.datetime.now().isoformat()[0:22] + ":next bitcoin.com data fetching run will start at " + t
