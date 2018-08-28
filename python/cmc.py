@@ -15,7 +15,7 @@ class ApiKeysHelper:
     self.t = threading.Thread(target=self.run)
     self.t.daemon = True
     self.t.start()
-  
+
   def run(self):
     while True:
       curr = datetime.datetime.now()
@@ -24,6 +24,7 @@ class ApiKeysHelper:
         self.set_calls(cpm=0)
         if curr.hour == 0 and curr.minute == 0:
           self.set_calls(cpd=0)
+          self.load() # reload per day
           if curr.day == 1:
             self.set_calls(cpmo=0)
       sleep_time = -1
@@ -112,6 +113,14 @@ class ApiKeysHelper:
         print row
       print '================================================'
 
+  def interval(self):
+    valid_keys = [k for k in self.api_keys if self.api_keys[k]['cpm'] < self.calls_limit['cpm'] and self.api_keys[k]['cpd'] < self.calls_limit['cpd'] and self.api_keys[k]['cpmo'] < self.calls_limit['cpmo']]
+    raw = 60 // (len(valid_keys) * 193 // 1440)
+    divisors = [2,3,4,5,6,10,12,15,20,30]
+    for d in divisors:
+      if d >= raw:
+        return d
+    return 60
 if __name__ == '__main__':
   obj = ApiKeysHelper()
 

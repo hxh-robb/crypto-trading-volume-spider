@@ -45,7 +45,7 @@ def main():
   while True:
     try:
       current = datetime.datetime.now()
-      delay = 20
+      delay = cmc_helper.interval()
       if fetch_data() is None:
         delay = 86400
       print 'delay time:%s' % delay
