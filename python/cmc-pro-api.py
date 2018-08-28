@@ -39,17 +39,20 @@ def payload2record(payload = {u'status': {u'timestamp': u'2018-08-27T09:43:49.13
   return record
 
 def main():
+  start_time = (datetime.datetime.now() + datetime.timedelta(0,120)).replace(second=0, microsecond=0)
+  time.sleep((start_time - datetime.datetime.now()).total_seconds())
   while True:
     try:
+      current = datetime.datetime.now()
       delay = 20
       if fetch_data() is None:
         delay = 86400
 
       sleep_time = -1
       while sleep_time < 0:
-        current = datetime.datetime.now()
-        next_sec = (current + datetime.timedelta(0,delay)).replace(microsecond=0)
-        d = next_sec - current
+        current = current.replace(second=0, microsecond=0)
+        next_loop = (current + datetime.timedelta(0,delay)).replace(microsecond=0)
+        d = next_loop - datetime.datetime.now()
         if d.days < 0:
           sleep_time = d.days
         else:
