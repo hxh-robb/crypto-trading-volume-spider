@@ -11,7 +11,7 @@ if len(sys.argv) > 1:
 if int(interval) <= 0:
   interval = 60
 
-last_fetching = (-1,-1)
+last_fetched = [-1,-1]
 
 def fetch_data():
   record = {}
@@ -20,11 +20,13 @@ def fetch_data():
   payload = r.json()
   record['last_updated'] = payload['data']['last_updated']
   record['tradingVolume'] = payload['data']['quotes']['USD']['volume_24h']
-  if last_fetched[0] == record['last_updated'] && last_fetched[1] == record['tradingVolume']:
+  if last_fetched[0] == record['last_updated'] and last_fetched[1] == record['tradingVolume']:
+    print "Ignore this fetching", last_fetched, record
     return
   
+  print "Save this fetching", last_fetched, record
   last_fetched[0] = record['last_updated']
-  last_fetched[1] = record['tradingVolume']:
+  last_fetched[1] = record['tradingVolume']
   helper.add(record,'scheduled-coinmarketcap-api-btc',interval,'/out')
 
 def next_schedule_job(need_run_job=True, schedule_interval=interval):

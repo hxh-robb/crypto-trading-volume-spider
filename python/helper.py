@@ -2,7 +2,7 @@ import json
 from os import path
 
 def json_path(source_name='', interval=1, base_dir='/tmp'):
-  file_name = str(interval) + 's.json'
+  file_name = 'json' if interval is None else str(interval) + 's.json'
   file_name = '.'.join([source_name,file_name]) if len(source_name) > 0 else file_name
   file_path = path.abspath(path.join(base_dir, file_name))
   return file_path
