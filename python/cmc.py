@@ -107,7 +107,10 @@ class ApiKeysHelper:
     except Exception as e:
       return False
     finally:
-      print '[%s]%s' % (datetime.datetime.now(), self.api_keys.values())
+      print '==========[%s]=========' % datetime.datetime.now()
+      for row in self.api_keys.values():
+        print row
+      print '================================================'
 
 if __name__ == '__main__':
   obj = ApiKeysHelper()

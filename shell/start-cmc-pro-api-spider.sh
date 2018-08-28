@@ -9,4 +9,3 @@ mkdir -p .docker
 
 #docker run -d --rm --name "scheduled-cmc-pro-api-spider" -v "$(pwd)/.docker/":/out -v "$(pwd)/.docker/cmc_api_keys.txt":/cmc/api_keys.txt crypto-trading-volume-spider:latest python /app/cmc-pro-api.py
 docker run --rm -it --name "scheduled-cmc-pro-api-spider" -v "$(pwd)/.docker/":/out -v "$(pwd)/.docker/cmc_api_keys.txt":/cmc/api_keys.txt crypto-trading-volume-spider:latest python /app/cmc-pro-api.py
-#docker run --rm -it --name "scheduled-cmc-pro-api-spider" -v "$(pwd)/.docker/":/out -v "$(pwd)/.docker/cmc_api_keys.txt":/cmc/api_keys.txt crypto-trading-volume-spider:latest bash 

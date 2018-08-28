@@ -13,6 +13,9 @@ def fetch_data():
   h = {'X-CMC_PRO_API_KEY':api_key}
   p = {'symbol':'BTC,ETH,LTC,XRP,EOS,USDT'}
   r = requests.get(url, params=p, headers=h)
+  if r.status_code != 200:
+    print datetime.datetime.now(), 'Fail to fetch data from pro api'
+    return None
   if r.status_code == 200:
     cmc_helper.consume(api_key)
   record = payload2record(r.json())
