@@ -14,7 +14,7 @@ def fetch_data():
   p = {'symbol':'BTC,ETH,LTC,XRP,EOS,USDT'}
   r = requests.get(url, params=p, headers=h)
   if r.status_code != 200:
-    print datetime.datetime.now(), 'Fail to fetch data from pro api'
+    print  '[%s]Fail to fetch data from pro api, status code=%s' % (datetime.datetime.now(), r.status_code)
     return None
   if r.status_code == 200:
     cmc_helper.consume(api_key)
@@ -38,18 +38,21 @@ def payload2record(payload):
     record[symbol]['changeSecond'] = int(payload['data'][symbol]['quote']['USD']['last_updated'][17:19])
   return record
 
-def main():
+def main(given_interval=None):
   start_time = (datetime.datetime.now() + datetime.timedelta(0,120)).replace(second=0, microsecond=0)
   print 'start time:%s' % start_time
   time.sleep((start_time - datetime.datetime.now()).total_seconds())
-  interval = None
+  interval = cmc_helper.interval()
   while True:
     try:
       current = datetime.datetime.now()
-      if interval is None or current.second == 0:
+      if current.second == 0:
         interval = cmc_helper.interval()
+        if given_interval is not None:
+          interval = given_interval # using given frequently period
       if fetch_data() is None:
-        interval = 86400
+        print 'Cannot fetch data'
+        interval = (datetime.datetime.now() + datetime.timedelta(0,3600)).replace(minute=0, second=0, microsecond=0).total_seconds()
       print 'interval time:%s' % interval
       sleep_time = -1
       while sleep_time < 0:
@@ -57,6 +60,7 @@ def main():
         d = next_loop - datetime.datetime.now()
         if d.days < 0:
           sleep_time = d.days
+          current = datetime.datetime.now()
         else:
           sleep_time = d.total_seconds()
       print 'sleep time:%s' % sleep_time
@@ -65,5 +69,16 @@ def main():
       break
 
 if __name__ == '__main__':
-  main()
+  interval = cmc_helper.interval()
+  if len(sys.argv) > 1:
+    try:
+      interval = int(sys.argv[1])
+    except Exception as e:
+      pass
+
+  if interval < 2:
+    interval = 2
+  elif interval > 60:
+    interval = None
+  main(interval)
   # TODO:change prediction

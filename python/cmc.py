@@ -117,7 +117,10 @@ class ApiKeysHelper:
 
   def interval(self):
     valid_keys = [k for k in self.api_keys if self.api_keys[k]['cpm'] < self.calls_limit['cpm'] and self.api_keys[k]['cpd'] < self.calls_limit['cpd'] and self.api_keys[k]['cpmo'] < self.calls_limit['cpmo']]
-    raw = 60 // (len(valid_keys) * 193 // 1440)
+    available_keys_per_minute = len(valid_keys) * 193 // 1440
+    if available_keys_per_minute == 0:
+      available_keys_per_minute = 1
+    raw = 60 // available_keys_per_minute
     divisors = [2,3,4,5,6,10,12,15,20,30]
     for d in divisors:
       if d >= raw:
