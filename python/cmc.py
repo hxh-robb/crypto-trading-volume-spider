@@ -24,7 +24,6 @@ class ApiKeysHelper:
         self.set_calls(cpm=0)
         if curr.hour == 0 and curr.minute == 0:
           self.set_calls(cpd=0)
-          self.load() # reload per day
           if curr.day == 1:
             self.set_calls(cpmo=0)
       sleep_time = -1
@@ -104,10 +103,11 @@ class ApiKeysHelper:
       with open(self.filename,'w') as f:
         for k in self.api_keys:
           f.write('%s,%d,%d,%d,%s\n' % (k, self.api_keys[k]['cpm'], self.api_keys[k]['cpd'], self.api_keys[k]['cpmo'], self.api_keys[k]['desc']))
-        return True
+      return True
     except Exception as e:
       return False
     finally:
+      self.load() # reload after write
       print '==========[%s]=========' % datetime.datetime.now()
       for row in self.api_keys.values():
         print row
