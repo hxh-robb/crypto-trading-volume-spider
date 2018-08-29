@@ -125,7 +125,7 @@ class ApiKeysHelper:
     for d in divisors:
       if d >= raw:
         return d
-    return 60
+    return divisors[-1]
 if __name__ == '__main__':
   obj = ApiKeysHelper()
 
