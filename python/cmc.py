@@ -27,7 +27,7 @@ class ApiKeysHelper:
           if curr.day == 1:
             self.set_calls(cpmo=0)
       else:
-        self.load()
+        self.load(False)
       sleep_time = -1
       while sleep_time < 0:
         next_sec = (curr + datetime.timedelta(0,1)).replace(microsecond=0)
@@ -37,7 +37,7 @@ class ApiKeysHelper:
           break
       time.sleep(sleep_time)
 
-  def load(self):
+  def load(self, need_print=True):
     if not os.path.exists(self.filename) or not os.path.isfile(self.filename):
       print 'file not found, init [%s]' % filename
       with open(self.filename,'w+') as f:
@@ -55,7 +55,8 @@ class ApiKeysHelper:
             self.api_keys[payload[0]]['cpd'] = int(payload[2])
             self.api_keys[payload[0]]['cpmo'] = int(payload[3])
             self.api_keys[payload[0]]['desc'] = payload[4]
-        print 'CMC api keys loaded'
+        if need_print:
+          print 'CMC api keys loaded'
         return True
     except Exception as e:
       print 'cannot load cmc api keys'

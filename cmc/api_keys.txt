@@ -3,7 +3,7 @@ eb3c025d-6966-4a03-b2ac-8c5b76b5e914,0,13,134,c2658644@nwytg.net
 e79166c2-a692-467a-8cb5-12a704bf3e8a,0,13,134,eerht.sme@protonmail.com
 4d73907e-7ac1-4462-8acc-d9b3559bbfad,0,13,134,evlewt@netc.eu
 558170e3-c151-4e8a-803a-07ddca7f6141,0,13,134,neves.sme@mail.ru
-7f30709c-3d97-4bea-9381-ac44f902339c,1,13,134,eno.sme@net-c.cat
+7f30709c-3d97-4bea-9381-ac44f902339c,0,13,134,eno.sme@net-c.cat
 2a688a2e-5bea-4158-95c3-e6f0f451b35d,0,0,190,osmond
 992aa995-5b07-4b5b-8030-da71da0a9464,0,0,221,robb
 fe0bef2c-3c84-47d2-a7b5-2c366c234bd3,0,12,133,nevele.sme@net-c.com
