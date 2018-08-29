@@ -22,11 +22,12 @@ class ApiKeysHelper:
       #print curr, self.api_keys.values()
       if curr.second == 0:
         self.set_calls(cpm=0)
-        self.load(False)
         if curr.hour == 0 and curr.minute == 0:
           self.set_calls(cpd=0)
           if curr.day == 1:
             self.set_calls(cpmo=0)
+      else:
+        self.load(False)
       sleep_time = -1
       while sleep_time < 0:
         next_sec = (curr + datetime.timedelta(0,1)).replace(microsecond=0)

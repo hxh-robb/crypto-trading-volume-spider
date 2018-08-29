@@ -42,10 +42,12 @@ def main():
   start_time = (datetime.datetime.now() + datetime.timedelta(0,120)).replace(second=0, microsecond=0)
   print 'start time:%s' % start_time
   time.sleep((start_time - datetime.datetime.now()).total_seconds())
+  interval = None
   while True:
     try:
       current = datetime.datetime.now()
-      interval = cmc_helper.interval()
+      if interval is None or current.second == 0:
+        interval = cmc_helper.interval()
       if fetch_data() is None:
         interval = 86400
       print 'interval time:%s' % interval
