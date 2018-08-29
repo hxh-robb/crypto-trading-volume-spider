@@ -26,6 +26,8 @@ class ApiKeysHelper:
           self.set_calls(cpd=0)
           if curr.day == 1:
             self.set_calls(cpmo=0)
+      else:
+        self.load()
       sleep_time = -1
       while sleep_time < 0:
         next_sec = (curr + datetime.timedelta(0,1)).replace(microsecond=0)
@@ -107,7 +109,6 @@ class ApiKeysHelper:
     except Exception as e:
       return False
     finally:
-      self.load() # reload after write
       print '==========[%s]=========' % datetime.datetime.now()
       for row in self.api_keys.values():
         print row
