@@ -22,12 +22,11 @@ class ApiKeysHelper:
       #print curr, self.api_keys.values()
       if curr.second == 0:
         self.set_calls(cpm=0)
+        self.load(False)
         if curr.hour == 0 and curr.minute == 0:
           self.set_calls(cpd=0)
           if curr.day == 1:
             self.set_calls(cpmo=0)
-      else:
-        self.load(False)
       sleep_time = -1
       while sleep_time < 0:
         next_sec = (curr + datetime.timedelta(0,1)).replace(microsecond=0)
@@ -49,7 +48,7 @@ class ApiKeysHelper:
           if '\n' in line:
             line = line[:-1]
           payload = line.split(',')
-          if len(payload) > 1:
+          if len(payload) > 1 and payload[0] not in self.api_keys:
             self.api_keys[payload[0]] = {}
             self.api_keys[payload[0]]['cpm'] = int(payload[1])
             self.api_keys[payload[0]]['cpd'] = int(payload[2])
