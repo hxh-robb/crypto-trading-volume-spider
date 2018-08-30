@@ -52,7 +52,8 @@ def main(given_interval=None):
           interval = given_interval # using given frequently period
       if fetch_data() is None:
         print 'Cannot fetch data'
-        interval = (datetime.datetime.now() + datetime.timedelta(0,3600)).replace(minute=0, second=0, microsecond=0).total_seconds()
+        interval = ((datetime.datetime.now() + datetime.timedelta(0,3600)).replace(minute=0, second=0, microsecond=0) - datetime.datetime.now()).total_seconds()
+        print interval
       print 'interval time:%s' % interval
       sleep_time = -1
       while sleep_time < 0:
@@ -66,6 +67,7 @@ def main(given_interval=None):
       print 'sleep time:%s' % sleep_time
       time.sleep(sleep_time)
     except Exception as e:
+      print e
       break
 
 if __name__ == '__main__':
