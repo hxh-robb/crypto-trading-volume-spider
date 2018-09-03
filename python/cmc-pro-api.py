@@ -12,7 +12,11 @@ def fetch_data():
   url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   h = {'X-CMC_PRO_API_KEY':api_key}
   p = {'symbol':'BTC,ETH,LTC,XRP,EOS,USDT'}
-  r = requests.get(url, params=p, headers=h)
+  try:
+    r = requests.get(url, params=p, headers=h)
+  except Exception as e:
+    print  '[%s]HTTP error, %s' % (datetime.datetime.now(), e)
+    return None
   if r.status_code != 200:
     print  '[%s]Fail to fetch data from pro api, status code=%s' % (datetime.datetime.now(), r.status_code)
     return None
@@ -53,6 +57,10 @@ def main(given_interval=None):
       if fetch_data() is None:
         print 'Cannot fetch data'
         interval = ((datetime.datetime.now() + datetime.timedelta(0,3600)).replace(minute=0, second=0, microsecond=0) - datetime.datetime.now()).total_seconds()
+        print interval
+      elif (datetime.datetime.now() - current).total_seconds() > 60:
+        print 'Usage time of data fetching is more than 1 minute'
+        interval = ((datetime.datetime.now() + datetime.timedelta(0,120)).replace(second=0, microsecond=0) - datetime.datetime.now()).total_seconds()
         print interval
       print 'interval time:%s' % interval
       sleep_time = -1
