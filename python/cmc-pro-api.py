@@ -7,7 +7,7 @@ cmc_helper.load()
 def fetch_data():
   api_key = cmc_helper.pick_api_key()
   if api_key is None:
-    print datetime.datetime.now(), 'No available api key'
+    print '[%s]No available api key' % datetime.datetime.now()
     return None
   url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
   h = {'X-CMC_PRO_API_KEY':api_key}
@@ -57,11 +57,9 @@ def main(given_interval=None):
       if fetch_data() is None:
         print 'Cannot fetch data'
         interval = ((datetime.datetime.now() + datetime.timedelta(0,3600)).replace(minute=0, second=0, microsecond=0) - datetime.datetime.now()).total_seconds()
-        print interval
-      elif (datetime.datetime.now() - current).total_seconds() > 60:
-        print 'Usage time of data fetching is more than 1 minute'
+      elif (datetime.datetime.now() - current).total_seconds() >= 1:
+        print 'Usage time of data fetching is more than 1 second'
         interval = ((datetime.datetime.now() + datetime.timedelta(0,120)).replace(second=0, microsecond=0) - datetime.datetime.now()).total_seconds()
-        print interval
       print 'interval time:%s' % interval
       sleep_time = -1
       while sleep_time < 0:
