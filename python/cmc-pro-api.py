@@ -63,7 +63,7 @@ def main(given_interval=None):
       print 'interval time:%s' % interval
       sleep_time = -1
       while sleep_time < 0:
-        next_loop = (current + datetime.timedelta(0,interval)).replace(microsecond=0)
+        next_loop = (datetime.datetime.now() + datetime.timedelta(0,interval)).replace(microsecond=0)
         d = next_loop - datetime.datetime.now()
         if d.days < 0:
           sleep_time = d.days
